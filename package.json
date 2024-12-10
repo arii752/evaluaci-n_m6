@@ -1,0 +1,16 @@
+{
+    "name": "anime_evaluacion",
+    "version": "1.0.0",
+    "description": "Servidor Node.js anime",
+    "main": "src/main.js",
+    "scripts": {
+    "start": "node src/main.js"
+    },
+    "keywords": [],
+    "author": "arii",
+    "license": "MIT",
+    "dependencies": {
+    "express": "^4.17.3",
+    "body-parser": "^1.19.0"
+    }
+}

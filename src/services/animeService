@@ -1,0 +1,44 @@
+const fs = require('fs').promises;
+const path = require('path');
+
+const filePath = path.join(__dirname, '../data/anime.json');
+
+// Para obtener todos los animes
+const getAllAnimes = async () => {
+    const data = await fs.readFile(filePath, 'utf8');
+    return JSON.parse(data);
+};
+
+// Para crear un nuevo anime
+const createAnime = async (anime) => {
+    const animes = await getAllAnimes();
+    const newAnime = { id: animes.length + 1, ...anime };
+    animes.push(newAnime);
+    await fs.writeFile(filePath, JSON.stringify(animes, null, 2));
+    return newAnime;
+};
+
+// Para actualizar un anime
+const updateAnime = async (id, updatedData) => {
+    const animes = await getAllAnimes();
+    const index = animes.findIndex(anime => anime.id === parseInt(id));
+    if (index === -1) throw new Error('No se encontró el anime ):');
+
+    animes[index] = { ...animes[index], ...updatedData };
+    await fs.writeFile(filePath, JSON.stringify(animes, null, 2));
+    return animes[index];
+};
+
+// Para eliminar un anime
+const deleteAnime = async (id) => {
+    const animes = await getAllAnimes();
+    const updatedAnimes = animes.filter(anime => anime.id !== parseInt(id));
+    await fs.writeFile(filePath, JSON.stringify(updatedAnimes, null, 2));
+};
+
+module.exports = {
+    getAllAnimes,
+    createAnime,
+    updateAnime,
+    deleteAnime,
+};
